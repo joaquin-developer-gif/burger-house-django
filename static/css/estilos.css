@@ -1,0 +1,25 @@
+.burger-card {
+    overflow: hidden;
+}
+
+.burger-img {
+    height: 230px;
+    object-fit: cover;
+}
+
+input,
+select,
+textarea {
+    width: 100%;
+    padding: 10px 12px;
+    border: 1px solid #ced4da;
+    border-radius: 8px;
+}
+
+input:focus,
+select:focus,
+textarea:focus {
+    outline: none;
+    border-color: #ffc107;
+    box-shadow: 0 0 0 0.15rem rgba(255, 193, 7, 0.25);
+}

@@ -1,0 +1,52 @@
+{% extends 'base.html' %}
+
+{% block title %}Hamburguesas | {{ nombre_sitio }}{% endblock %}
+
+{% block content %}
+
+<section class="container my-5">
+    <div class="text-center mb-5">
+        <h1 class="fw-bold">Nuestras hamburguesas</h1>
+        <p class="text-muted">{{ slogan_sitio }}</p>
+    </div>
+
+    <div class="row">
+        {% for hamburguesa in hamburguesas %}
+            <div class="col-md-4 mb-4">
+                <div class="card h-100 shadow-sm border-0">
+
+                    {% if hamburguesa.imagen %}
+                        <img src="{{ hamburguesa.imagen.url }}" class="card-img-top" alt="{{ hamburguesa.nombre }}">
+                    {% endif %}
+
+                    <div class="card-body text-center">
+                        <h4 class="fw-bold">{{ hamburguesa.nombre }}</h4>
+
+                        <p class="text-muted">
+                            {{ hamburguesa.descripcion }}
+                        </p>
+
+                        <p class="fw-bold text-success fs-5">
+                            ${{ hamburguesa.precio }}
+                        </p>
+
+                        {% if hamburguesa.disponible %}
+                            <span class="badge bg-success">Disponible</span>
+                        {% else %}
+                            <span class="badge bg-danger">No disponible</span>
+                        {% endif %}
+                    </div>
+
+                </div>
+            </div>
+        {% empty %}
+            <div class="col-12">
+                <div class="alert alert-warning text-center">
+                    Todavía no hay hamburguesas cargadas.
+                </div>
+            </div>
+        {% endfor %}
+    </div>
+</section>
+
+{% endblock %}

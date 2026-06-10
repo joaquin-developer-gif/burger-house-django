@@ -1,0 +1,73 @@
+{% extends 'base.html' %}
+
+{% block title %}Inicio | {{ nombre_sitio }}{% endblock %}
+
+{% block content %}
+
+<section class="hero-burger d-flex align-items-center text-center text-white">
+    <div class="container">
+        <h1 class="display-3 fw-bold">{{ nombre_sitio }}</h1>
+
+        <p class="lead mt-3">
+            {{ slogan_sitio }}
+        </p>
+
+        <a href="{% url 'catalogo_hamburguesas' %}" class="btn btn-warning btn-lg mt-3 fw-bold">
+            Ver hamburguesas
+        </a>
+    </div>
+</section>
+
+<section class="container my-5">
+    <div class="text-center mb-5">
+        <h2 class="fw-bold">Pedí tu hamburguesa favorita</h2>
+        <p class="text-muted">
+            Retirá por el local en {{ direccion_local }} o pedí delivery.
+        </p>
+    </div>
+
+    <div class="row text-center">
+
+        <div class="col-md-4 mb-4">
+            <div class="card h-100 shadow-sm border-0">
+                <div class="card-body">
+                    <h3>🍔 Hamburguesas</h3>
+                    <p>Variedades inspiradas en el mundial, con ingredientes frescos y mucho sabor.</p>
+                </div>
+            </div>
+        </div>
+
+        <div class="col-md-4 mb-4">
+            <div class="card h-100 shadow-sm border-0">
+                <div class="card-body">
+                    <h3>🛵 Delivery</h3>
+                    <p>Hacé tu pedido y recibilo en tu casa durante nuestro horario de atención.</p>
+                </div>
+            </div>
+        </div>
+
+        <div class="col-md-4 mb-4">
+            <div class="card h-100 shadow-sm border-0">
+                <div class="card-body">
+                    <h3>🏠 Retiro</h3>
+                    <p>También podés retirar tu pedido por el local de {{ direccion_local }}.</p>
+                </div>
+            </div>
+        </div>
+
+    </div>
+</section>
+
+<section class="container mb-5">
+    <div class="card border-0 shadow-sm">
+        <div class="card-body text-center">
+            <h3 class="fw-bold">Información del local</h3>
+            <p class="mb-1">📍 {{ direccion_local }}</p>
+            <p class="mb-1">📞 {{ telefono_sitio }}</p>
+            <p class="mb-0">🕒 {{ horario_atencion }}</p>
+        </div>
+    </div>
+</section>
+
+{% endblock %}
+
