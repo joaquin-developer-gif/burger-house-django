@@ -9,23 +9,33 @@
     <div class="d-flex justify-content-between align-items-center mb-4">
         <div>
             <h1 class="fw-bold mb-0">Gestión de hamburguesas</h1>
-            <p class="text-muted mb-0">Crear, editar y eliminar hamburguesas del catálogo.</p>
+            <p class="text-muted mb-0">
+                Crear, editar y eliminar hamburguesas del catálogo.
+            </p>
         </div>
 
-        {% if perms.hamburguesas.add_hamburguesa %}
-            <a href="{% url 'crear_hamburguesa' %}" class="btn btn-warning fw-bold">
-                Nueva hamburguesa
+        <div>
+            <a href="{% url 'lista_categorias_admin' %}" class="btn btn-outline-dark fw-bold me-2">
+                Categorías
             </a>
-        {% endif %}
+
+            {% if perms.hamburguesas.add_hamburguesa %}
+                <a href="{% url 'crear_hamburguesa' %}" class="btn btn-warning fw-bold">
+                    Nueva hamburguesa
+                </a>
+            {% endif %}
+        </div>
     </div>
+
 
     <div class="card shadow-sm border-0">
         <div class="card-body">
 
             {% if hamburguesas %}
+
                 <div class="table-responsive">
                     <table class="table table-hover align-middle">
-                        <thead>
+                        <thead class="table-dark">
                             <tr>
                                 <th>Imagen</th>
                                 <th>Nombre</th>
@@ -39,25 +49,35 @@
                         <tbody>
                             {% for hamburguesa in hamburguesas %}
                                 <tr>
-                                    <td>
+                                    <td style="width: 90px;">
                                         {% if hamburguesa.imagen %}
-                                            <img src="{{ hamburguesa.imagen.url }}" alt="{{ hamburguesa.nombre }}" style="width: 70px; height: 55px; object-fit: cover; border-radius: 8px;">
+                                            <img src="{{ hamburguesa.imagen.url }}"
+                                                 alt="{{ hamburguesa.nombre }}"
+                                                 style="width: 70px; height: 55px; object-fit: cover; border-radius: 8px;">
                                         {% else %}
                                             <span class="text-muted">Sin imagen</span>
                                         {% endif %}
                                     </td>
 
-                                    <td class="fw-bold">{{ hamburguesa.nombre }}</td>
+                                    <td>
+                                        <strong>{{ hamburguesa.nombre }}</strong>
+                                        <br>
+                                        <small class="text-muted">
+                                            {{ hamburguesa.descripcion|truncatechars:60 }}
+                                        </small>
+                                    </td>
 
                                     <td>
                                         {% if hamburguesa.categoria %}
                                             {{ hamburguesa.categoria.nombre }}
                                         {% else %}
-                                            Sin categoría
+                                            <span class="text-muted">Sin categoría</span>
                                         {% endif %}
                                     </td>
 
-                                    <td>${{ hamburguesa.precio }}</td>
+                                    <td>
+                                        ${{ hamburguesa.precio }}
+                                    </td>
 
                                     <td>
                                         {% if hamburguesa.disponible %}
@@ -68,31 +88,34 @@
                                     </td>
 
                                     <td class="text-end">
-                                        <a href="{% url 'detalle_hamburguesa' hamburguesa.id %}" class="btn btn-sm btn-outline-secondary">
-                                            Ver
-                                        </a>
 
                                         {% if perms.hamburguesas.change_hamburguesa %}
-                                            <a href="{% url 'editar_hamburguesa' hamburguesa.id %}" class="btn btn-sm btn-outline-dark">
+                                            <a href="{% url 'editar_hamburguesa' hamburguesa.id %}"
+                                               class="btn btn-sm btn-outline-dark">
                                                 Editar
                                             </a>
                                         {% endif %}
 
                                         {% if perms.hamburguesas.delete_hamburguesa %}
-                                            <a href="{% url 'eliminar_hamburguesa' hamburguesa.id %}" class="btn btn-sm btn-outline-danger">
+                                            <a href="{% url 'eliminar_hamburguesa' hamburguesa.id %}"
+                                               class="btn btn-sm btn-outline-danger">
                                                 Eliminar
                                             </a>
                                         {% endif %}
+
                                     </td>
                                 </tr>
                             {% endfor %}
                         </tbody>
                     </table>
                 </div>
+
             {% else %}
+
                 <div class="alert alert-warning text-center mb-0">
                     Todavía no hay hamburguesas cargadas.
                 </div>
+
             {% endif %}
 
         </div>

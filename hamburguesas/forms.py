@@ -1,66 +1,25 @@
 from django import forms
-from .models import Categoria, Hamburguesa
-
-
-class CategoriaForm(forms.ModelForm):
-    class Meta:
-        model = Categoria
-        fields = ['nombre', 'descripcion']
-
-        labels = {
-            'nombre': 'Nombre',
-            'descripcion': 'Descripción',
-        }
-
-        widgets = {
-            'nombre': forms.TextInput(attrs={
-                'class': 'form-control',
-                'placeholder': 'Ej: Clásicas, Especiales, Mundialistas'
-            }),
-            'descripcion': forms.Textarea(attrs={
-                'class': 'form-control',
-                'rows': 3,
-                'placeholder': 'Descripción de la categoría'
-            }),
-        }
+from .models import Hamburguesa, Categoria
 
 
 class HamburguesaForm(forms.ModelForm):
     class Meta:
         model = Hamburguesa
-        fields = [
-            'nombre',
-            'descripcion',
-            'precio',
-            'categoria',
-            'ingredientes',
-            'imagen',
-            'disponible',
-        ]
-
-        labels = {
-            'nombre': 'Nombre',
-            'descripcion': 'Descripción',
-            'precio': 'Precio',
-            'categoria': 'Categoría',
-            'ingredientes': 'Ingredientes',
-            'imagen': 'Imagen',
-            'disponible': 'Disponible',
-        }
+        fields = '__all__'
 
         widgets = {
             'nombre': forms.TextInput(attrs={
                 'class': 'form-control',
-                'placeholder': 'Ej: Argentina Burger'
+                'placeholder': 'Nombre de la hamburguesa'
             }),
             'descripcion': forms.Textarea(attrs={
                 'class': 'form-control',
-                'rows': 3,
+                'rows': 4,
                 'placeholder': 'Descripción de la hamburguesa'
             }),
             'precio': forms.NumberInput(attrs={
                 'class': 'form-control',
-                'placeholder': 'Ej: 8500'
+                'placeholder': 'Precio'
             }),
             'categoria': forms.Select(attrs={
                 'class': 'form-control'
@@ -73,5 +32,23 @@ class HamburguesaForm(forms.ModelForm):
             }),
             'disponible': forms.CheckboxInput(attrs={
                 'class': 'form-check-input'
+            }),
+        }
+
+
+class CategoriaForm(forms.ModelForm):
+    class Meta:
+        model = Categoria
+        fields = '__all__'
+
+        widgets = {
+            'nombre': forms.TextInput(attrs={
+                'class': 'form-control',
+                'placeholder': 'Nombre de la categoría'
+            }),
+            'descripcion': forms.Textarea(attrs={
+                'class': 'form-control',
+                'rows': 3,
+                'placeholder': 'Descripción de la categoría'
             }),
         }

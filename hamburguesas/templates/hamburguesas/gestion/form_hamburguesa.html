@@ -16,17 +16,30 @@
                     <form method="post" enctype="multipart/form-data">
                         {% csrf_token %}
 
+                        {% if form.non_field_errors %}
+                            <div class="alert alert-danger">
+                                {{ form.non_field_errors }}
+                            </div>
+                        {% endif %}
+
                         {% for field in form %}
+
                             {% if field.name == 'disponible' %}
                                 <div class="form-check mb-3">
                                     {{ field }}
-                                    <label class="form-check-label fw-bold">
+                                    <label class="form-check-label fw-bold" for="{{ field.id_for_label }}">
                                         {{ field.label }}
                                     </label>
+
+                                    {% if field.errors %}
+                                        <div class="text-danger small mt-1">
+                                            {{ field.errors }}
+                                        </div>
+                                    {% endif %}
                                 </div>
                             {% else %}
                                 <div class="mb-3">
-                                    <label class="form-label fw-bold">
+                                    <label class="form-label fw-bold" for="{{ field.id_for_label }}">
                                         {{ field.label }}
                                     </label>
 
@@ -45,9 +58,10 @@
                                     {% endif %}
                                 </div>
                             {% endif %}
+
                         {% endfor %}
 
-                        <div class="d-flex gap-2">
+                        <div class="d-flex gap-2 mt-4">
                             <a href="{% url 'lista_hamburguesas_admin' %}" class="btn btn-outline-dark w-50">
                                 Cancelar
                             </a>

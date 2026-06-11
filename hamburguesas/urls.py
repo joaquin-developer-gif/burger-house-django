@@ -3,20 +3,21 @@ from . import views
 
 
 urlpatterns = [
+    # Catálogo público
     path('', views.catalogo_hamburguesas, name='catalogo_hamburguesas'),
 
-    # CRUD Categorías
-    path('categorias/', views.lista_categorias, name='lista_categorias'),
-    path('categorias/crear/', views.crear_categoria, name='crear_categoria'),
-    path('categorias/editar/<int:categoria_id>/', views.editar_categoria, name='editar_categoria'),
-    path('categorias/eliminar/<int:categoria_id>/', views.eliminar_categoria, name='eliminar_categoria'),
+    # Alias para evitar errores en templates viejos
+    path('categorias/', views.lista_categorias_admin, name='lista_categorias'),
 
-    # CRUD Hamburguesas
+    # Gestión de hamburguesas
     path('gestion/', views.lista_hamburguesas_admin, name='lista_hamburguesas_admin'),
     path('gestion/crear/', views.crear_hamburguesa, name='crear_hamburguesa'),
-    path('gestion/editar/<int:hamburguesa_id>/', views.editar_hamburguesa, name='editar_hamburguesa'),
-    path('gestion/eliminar/<int:hamburguesa_id>/', views.eliminar_hamburguesa, name='eliminar_hamburguesa'),
+    path('gestion/<int:pk>/editar/', views.editar_hamburguesa, name='editar_hamburguesa'),
+    path('gestion/<int:pk>/eliminar/', views.eliminar_hamburguesa, name='eliminar_hamburguesa'),
 
-    # Detalle público
-    path('<int:hamburguesa_id>/', views.detalle_hamburguesa, name='detalle_hamburguesa'),
+    # Gestión de categorías
+    path('gestion/categorias/', views.lista_categorias_admin, name='lista_categorias_admin'),
+    path('gestion/categorias/crear/', views.crear_categoria, name='crear_categoria'),
+    path('gestion/categorias/<int:pk>/editar/', views.editar_categoria, name='editar_categoria'),
+    path('gestion/categorias/<int:pk>/eliminar/', views.eliminar_categoria, name='eliminar_categoria'),
 ]
