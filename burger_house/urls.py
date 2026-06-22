@@ -12,9 +12,8 @@ urlpatterns = [
     # Página principal
     path('', home, name='home'),
 
-    # App hamburguesas
+    # Apps propias
     path('hamburguesas/', include('hamburguesas.urls')),
-
     path('usuarios/', include('usuarios.urls')),
 ]
 

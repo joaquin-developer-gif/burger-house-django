@@ -11,10 +11,15 @@
             <div class="card shadow border-0">
                 <div class="card-body p-4 text-center">
 
-                    <h2 class="fw-bold mb-3">Eliminar hamburguesa</h2>
+                    <h2 class="fw-bold text-danger mb-3">
+                        Eliminar hamburguesa
+                    </h2>
 
                     {% if hamburguesa.imagen %}
-                        <img src="{{ hamburguesa.imagen.url }}" alt="{{ hamburguesa.nombre }}" class="img-fluid rounded shadow-sm mb-3" style="max-height: 220px; object-fit: cover;">
+                        <img src="{{ hamburguesa.imagen.url }}"
+                             alt="{{ hamburguesa.nombre }}"
+                             class="img-fluid rounded shadow-sm mb-3"
+                             style="max-height: 220px; object-fit: cover;">
                     {% endif %}
 
                     <p class="lead">
@@ -26,11 +31,16 @@
                         Esta acción no se puede deshacer.
                     </p>
 
+                    <div class="alert alert-warning text-start">
+                        <strong>Atención:</strong>
+                        al confirmar, la hamburguesa será eliminada del catálogo.
+                    </div>
+
                     <form method="post">
                         {% csrf_token %}
 
                         <div class="d-flex gap-2">
-                            <a href="{% url 'lista_hamburguesas_admin' %}" class="btn btn-outline-dark w-50">
+                            <a href="{% url 'hamburguesas:lista_hamburguesas_admin' %}" class="btn btn-outline-dark w-50">
                                 Cancelar
                             </a>
 

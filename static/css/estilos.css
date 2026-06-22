@@ -1,10 +1,11 @@
-.burger-card {
-    overflow: hidden;
-}
+/* =========================================================
+   ESTILOS GENERALES - BURGER HOUSE
+========================================================= */
 
-.burger-img {
-    height: 230px;
-    object-fit: cover;
+body {
+    background-color: #ffffff;
+    color: #121826;
+    padding-top: 64px;
 }
 
 input,
@@ -22,4 +23,379 @@ textarea:focus {
     outline: none;
     border-color: #ffc107;
     box-shadow: 0 0 0 0.15rem rgba(255, 193, 7, 0.25);
+}
+
+.btn-warning {
+    background-color: #ffc107;
+    border-color: #ffc107;
+    color: #111;
+}
+
+.btn-warning:hover {
+    background-color: #e0a800;
+    border-color: #e0a800;
+    color: #111;
+}
+
+
+/* =========================================================
+   NAVBAR FIJO Y TRANSPARENTE
+========================================================= */
+
+.navbar {
+    min-height: 64px;
+}
+
+.navbar-burger {
+    min-height: 64px;
+    background: rgba(33, 37, 41, 0.98);
+    backdrop-filter: blur(8px);
+    -webkit-backdrop-filter: blur(8px);
+    transition: background 0.3s ease, box-shadow 0.3s ease;
+    z-index: 1030;
+}
+
+.navbar-burger.navbar-scrolled {
+    background: rgba(33, 37, 41, 0.70);
+    backdrop-filter: blur(12px);
+    -webkit-backdrop-filter: blur(12px);
+    box-shadow: 0 8px 24px rgba(0, 0, 0, 0.25) !important;
+}
+
+.navbar-brand {
+    letter-spacing: 0.3px;
+    font-size: 1.25rem;
+}
+
+.nav-link {
+    transition: color 0.2s ease;
+}
+
+.nav-link:hover {
+    color: #ffc107 !important;
+}
+
+.navbar-burger .navbar-brand,
+.navbar-burger .nav-link,
+.navbar-burger .navbar-text {
+    text-shadow: 0 2px 8px rgba(0, 0, 0, 0.35);
+}
+
+
+/* =========================================================
+   HOME - HERO
+========================================================= */
+
+.hero-burger {
+    min-height: 820px !important;
+    height: calc(100vh - 64px) !important;
+    position: relative !important;
+    display: flex !important;
+    align-items: center !important;
+    background-size: cover !important;
+    background-position: center right !important;
+    background-repeat: no-repeat !important;
+    background-color: #111 !important;
+    padding: 90px 0 !important;
+}
+
+.hero-row {
+    min-height: 820px !important;
+}
+
+.min-vh-75 {
+    min-height: 820px !important;
+}
+
+.hero-burger .container {
+    position: relative;
+    z-index: 2;
+}
+
+.hero-burger h1 {
+    color: #ffffff;
+    font-size: 4.8rem !important;
+    line-height: 1.05;
+    text-shadow: 0 4px 18px rgba(0, 0, 0, 0.65);
+}
+
+.hero-burger p {
+    max-width: 720px;
+    color: #ffffff;
+    font-size: 1.25rem !important;
+    font-weight: 500;
+    text-shadow: 0 2px 10px rgba(0, 0, 0, 0.65);
+}
+
+.hero-burger .badge {
+    font-size: 0.9rem;
+    border-radius: 999px;
+}
+
+.hero-burger .btn {
+    border-radius: 12px;
+    padding: 12px 24px;
+}
+
+
+/* =========================================================
+   SECCIONES
+========================================================= */
+
+.section-title {
+    color: #121826;
+}
+
+.feature-card {
+    border-radius: 18px;
+    transition: transform 0.2s ease, box-shadow 0.2s ease;
+}
+
+.feature-card:hover {
+    transform: translateY(-6px);
+    box-shadow: 0 12px 30px rgba(0, 0, 0, 0.12) !important;
+}
+
+.feature-icon {
+    font-size: 2.5rem;
+}
+
+
+/* =========================================================
+   CARDS GENERALES DE HAMBURGUESAS
+========================================================= */
+
+.burger-card {
+    border-radius: 18px;
+    overflow: hidden;
+    transition: transform 0.2s ease, box-shadow 0.2s ease;
+}
+
+.burger-card:hover {
+    transform: translateY(-6px);
+    box-shadow: 0 12px 30px rgba(0, 0, 0, 0.15) !important;
+}
+
+.burger-img {
+    width: 100%;
+    height: 260px;
+    object-fit: cover;
+}
+
+
+/* =========================================================
+   LOGIN / REGISTRO - FONDO HERO
+========================================================= */
+
+.auth-page {
+    min-height: calc(100vh - 64px);
+    background-image:
+        linear-gradient(
+            rgba(0, 0, 0, 0.72),
+            rgba(0, 0, 0, 0.72)
+        ),
+        url("/static/img/burger-hero.png");
+    background-size: cover;
+    background-position: center right;
+    background-repeat: no-repeat;
+    padding: 80px 0;
+}
+
+.auth-card {
+    border-radius: 18px;
+    background: rgba(255, 255, 255, 0.94);
+    backdrop-filter: blur(8px);
+    -webkit-backdrop-filter: blur(8px);
+}
+
+
+/* =========================================================
+   CATÁLOGO - CAROUSEL 2 CARDS
+========================================================= */
+
+.catalogo-page {
+    min-height: calc(100vh - 64px);
+    background:
+        radial-gradient(circle at top left, rgba(255, 193, 7, 0.28), transparent 35%),
+        radial-gradient(circle at bottom right, rgba(255, 111, 0, 0.22), transparent 35%),
+        linear-gradient(135deg, #fff8e1 0%, #ffffff 45%, #f8f9fa 100%);
+}
+
+.catalogo-carousel {
+    position: relative;
+    padding: 0 70px 50px;
+}
+
+.catalogo-carousel-card {
+    border-radius: 24px;
+    overflow: hidden;
+    background: #ffffff;
+    transition: transform 0.2s ease, box-shadow 0.2s ease;
+}
+
+.catalogo-carousel-card:hover {
+    transform: translateY(-6px);
+    box-shadow: 0 16px 35px rgba(0, 0, 0, 0.14) !important;
+}
+
+.catalogo-carousel-img {
+    width: 100%;
+    height: 320px;
+    object-fit: cover;
+    background-color: #000;
+}
+
+.carousel-control-prev,
+.carousel-control-next {
+    width: 6%;
+}
+
+
+/* =========================================================
+   TABLAS / GESTIÓN
+========================================================= */
+
+.table img {
+    object-fit: cover;
+}
+
+.card {
+    border-radius: 14px;
+}
+
+
+/* =========================================================
+   RESPONSIVE
+========================================================= */
+
+@media (max-width: 768px) {
+    body {
+        padding-top: 64px;
+    }
+
+    .hero-burger {
+        min-height: 700px !important;
+        height: auto !important;
+        text-align: center;
+        background-position: center !important;
+        padding: 70px 0 !important;
+    }
+
+    .hero-row {
+        min-height: 700px !important;
+    }
+
+    .min-vh-75 {
+        min-height: 700px !important;
+    }
+
+    .hero-burger h1 {
+        font-size: 2.8rem !important;
+    }
+
+    .hero-burger p {
+        margin-left: auto;
+        margin-right: auto;
+        font-size: 1.05rem !important;
+    }
+
+    .hero-burger .d-flex {
+        justify-content: center !important;
+        flex-wrap: wrap;
+    }
+
+    .burger-img {
+        height: 220px;
+    }
+
+    .auth-page {
+        min-height: calc(100vh - 64px);
+        background-position: center;
+        padding: 60px 0;
+    }
+
+    .catalogo-carousel {
+        padding: 0 35px 40px;
+    }
+
+    .catalogo-carousel-img {
+        height: 260px;
+    }
+
+    .catalogo-carousel-card h3 {
+        font-size: 1.6rem;
+    }
+
+    .carousel-control-prev,
+    .carousel-control-next {
+        width: 10%;
+    }
+}
+
+/* =========================================================
+   MIS PEDIDOS
+========================================================= */
+
+.mis-pedidos-page {
+    min-height: calc(100vh - 64px);
+    background:
+        radial-gradient(circle at top left, rgba(255, 193, 7, 0.22), transparent 35%),
+        radial-gradient(circle at bottom right, rgba(255, 111, 0, 0.18), transparent 35%),
+        linear-gradient(135deg, #fff8e1 0%, #ffffff 45%, #f8f9fa 100%);
+}
+
+.pedido-card {
+    border-radius: 22px;
+    background: rgba(255, 255, 255, 0.96);
+    transition: transform 0.2s ease, box-shadow 0.2s ease;
+}
+
+.pedido-card:hover {
+    transform: translateY(-6px);
+    box-shadow: 0 16px 35px rgba(0, 0, 0, 0.14) !important;
+}
+
+.pedido-total {
+    background: #fff8e1;
+    border: 1px solid rgba(255, 193, 7, 0.35);
+    border-radius: 14px;
+    padding: 14px 16px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.pedido-total span {
+    color: #6c757d;
+    font-weight: 600;
+}
+
+.pedido-total strong {
+    color: #198754;
+    font-size: 1.25rem;
+}
+
+.pedido-empty-card {
+    max-width: 680px;
+    background: rgba(255, 255, 255, 0.96);
+    border-radius: 26px;
+    padding: 50px 35px;
+}
+
+.pedido-empty-icon {
+    width: 86px;
+    height: 86px;
+    margin: 0 auto;
+    border-radius: 50%;
+    background: #fff3cd;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 2.7rem;
+}
+
+@media (max-width: 768px) {
+    .pedido-empty-card {
+        padding: 38px 24px;
+    }
 }

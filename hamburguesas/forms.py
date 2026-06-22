@@ -1,16 +1,25 @@
 from django import forms
-from .models import Hamburguesa, Categoria
+
+from .models import Hamburguesa, Categoria, Pedido, MetodoPago
 
 
 class HamburguesaForm(forms.ModelForm):
     class Meta:
         model = Hamburguesa
-        fields = '__all__'
+        fields = [
+            'nombre',
+            'descripcion',
+            'precio',
+            'categoria',
+            'ingredientes',
+            'imagen',
+            'disponible',
+        ]
 
         widgets = {
             'nombre': forms.TextInput(attrs={
                 'class': 'form-control',
-                'placeholder': 'Nombre de la hamburguesa'
+                'placeholder': 'Ej: Hamburguesa Argentina'
             }),
             'descripcion': forms.Textarea(attrs={
                 'class': 'form-control',
@@ -19,14 +28,12 @@ class HamburguesaForm(forms.ModelForm):
             }),
             'precio': forms.NumberInput(attrs={
                 'class': 'form-control',
-                'placeholder': 'Precio'
+                'placeholder': 'Ej: 8500'
             }),
             'categoria': forms.Select(attrs={
-                'class': 'form-control'
+                'class': 'form-select'
             }),
-            'ingredientes': forms.SelectMultiple(attrs={
-                'class': 'form-control'
-            }),
+            'ingredientes': forms.CheckboxSelectMultiple(),
             'imagen': forms.ClearableFileInput(attrs={
                 'class': 'form-control'
             }),
@@ -35,20 +42,111 @@ class HamburguesaForm(forms.ModelForm):
             }),
         }
 
+        labels = {
+            'nombre': 'Nombre',
+            'descripcion': 'Descripción',
+            'precio': 'Precio',
+            'categoria': 'Categoría',
+            'ingredientes': 'Ingredientes',
+            'imagen': 'Imagen',
+            'disponible': 'Disponible',
+        }
+
 
 class CategoriaForm(forms.ModelForm):
     class Meta:
         model = Categoria
-        fields = '__all__'
+        fields = [
+            'nombre',
+            'descripcion',
+        ]
 
         widgets = {
             'nombre': forms.TextInput(attrs={
                 'class': 'form-control',
-                'placeholder': 'Nombre de la categoría'
+                'placeholder': 'Ej: Clásicas, Premium, Veggie'
             }),
             'descripcion': forms.Textarea(attrs={
                 'class': 'form-control',
                 'rows': 3,
-                'placeholder': 'Descripción de la categoría'
+                'placeholder': 'Descripción breve de la categoría'
             }),
         }
+
+        labels = {
+            'nombre': 'Nombre',
+            'descripcion': 'Descripción',
+        }
+
+
+class PedidoForm(forms.ModelForm):
+    cantidad = forms.IntegerField(
+        min_value=1,
+        initial=1,
+        label='Cantidad',
+        widget=forms.NumberInput(attrs={
+            'class': 'form-control',
+            'min': '1',
+            'placeholder': 'Ej: 1'
+        })
+    )
+
+    class Meta:
+        model = Pedido
+        fields = [
+            'tipo_entrega',
+            'direccion_entrega',
+            'telefono_contacto',
+            'metodo_pago',
+            'observaciones',
+        ]
+
+        widgets = {
+            'tipo_entrega': forms.Select(attrs={
+                'class': 'form-select'
+            }),
+            'direccion_entrega': forms.TextInput(attrs={
+                'class': 'form-control',
+                'placeholder': 'Solo completar si elegís delivery'
+            }),
+            'telefono_contacto': forms.TextInput(attrs={
+                'class': 'form-control',
+                'placeholder': 'Ej: 3584196481'
+            }),
+            'metodo_pago': forms.Select(attrs={
+                'class': 'form-select'
+            }),
+            'observaciones': forms.Textarea(attrs={
+                'class': 'form-control',
+                'rows': 3,
+                'placeholder': 'Ej: Sin cebolla, más salsa, retirar a las 22 hs'
+            }),
+        }
+
+        labels = {
+            'tipo_entrega': 'Tipo de entrega',
+            'direccion_entrega': 'Dirección de entrega',
+            'telefono_contacto': 'Teléfono de contacto',
+            'metodo_pago': 'Método de pago',
+            'observaciones': 'Observaciones',
+        }
+
+    def __init__(self, *args, **kwargs):
+        super().__init__(*args, **kwargs)
+
+        self.fields['metodo_pago'].queryset = MetodoPago.objects.filter(activo=True)
+        self.fields['metodo_pago'].empty_label = 'Seleccioná un método de pago'
+
+    def clean(self):
+        cleaned_data = super().clean()
+
+        tipo_entrega = cleaned_data.get('tipo_entrega')
+        direccion_entrega = cleaned_data.get('direccion_entrega')
+
+        if tipo_entrega == 'delivery' and not direccion_entrega:
+            self.add_error(
+                'direccion_entrega',
+                'La dirección es obligatoria para pedidos con delivery.'
+            )
+
+        return cleaned_data

@@ -4,55 +4,71 @@
 
 {% block content %}
 
-<section class="container my-5">
-    <div class="row justify-content-center">
-        <div class="col-md-6 col-lg-5">
+<section class="auth-page d-flex align-items-center">
+    <div class="container">
+        <div class="row justify-content-center">
+            <div class="col-md-6 col-lg-5">
 
-            <div class="card shadow border-0">
-                <div class="card-body p-4">
+                <div class="card auth-card shadow border-0">
+                    <div class="card-body p-4">
 
-                    <h2 class="text-center fw-bold mb-4">Iniciar sesión</h2>
+                        <h2 class="text-center fw-bold mb-4">
+                            Iniciar sesión
+                        </h2>
 
-                    {% if messages %}
-                        {% for message in messages %}
-                            <div class="alert alert-{{ message.tags }} text-center">
-                                {{ message }}
+                        {% if form.errors %}
+                            <div class="alert alert-danger text-center">
+                                Usuario o contraseña incorrectos.
                             </div>
-                        {% endfor %}
-                    {% endif %}
+                        {% endif %}
 
-                    {% if form.errors %}
-                        <div class="alert alert-danger text-center">
-                            Usuario o contraseña incorrectos.
-                        </div>
-                    {% endif %}
+                        <form method="post">
+                            {% csrf_token %}
 
-                    <form method="post">
-                        {% csrf_token %}
+                            <div class="mb-3">
+                                <label for="{{ form.username.id_for_label }}" class="form-label fw-bold">
+                                    Usuario
+                                </label>
 
-                        <div class="mb-3">
-                            <label class="form-label fw-bold">Usuario</label>
-                            {{ form.username }}
-                        </div>
+                                {{ form.username }}
 
-                        <div class="mb-3">
-                            <label class="form-label fw-bold">Contraseña</label>
-                            {{ form.password }}
-                        </div>
+                                {% if form.username.errors %}
+                                    <div class="text-danger small mt-1">
+                                        {{ form.username.errors }}
+                                    </div>
+                                {% endif %}
+                            </div>
 
-                        <button type="submit" class="btn btn-warning w-100 fw-bold">
-                            Entrar
-                        </button>
-                    </form>
+                            <div class="mb-3">
+                                <label for="{{ form.password.id_for_label }}" class="form-label fw-bold">
+                                    Contraseña
+                                </label>
 
-                    <p class="text-center mt-3 mb-0">
-                        ¿No tenés cuenta?
-                        <a href="{% url 'registro' %}">Registrate</a>
-                    </p>
+                                {{ form.password }}
 
+                                {% if form.password.errors %}
+                                    <div class="text-danger small mt-1">
+                                        {{ form.password.errors }}
+                                    </div>
+                                {% endif %}
+                            </div>
+
+                            <button type="submit" class="btn btn-warning w-100 fw-bold">
+                                Entrar
+                            </button>
+                        </form>
+
+                        <p class="text-center mt-3 mb-0">
+                            ¿No tenés cuenta?
+                            <a href="{% url 'registro' %}">
+                                Registrate
+                            </a>
+                        </p>
+
+                    </div>
                 </div>
-            </div>
 
+            </div>
         </div>
     </div>
 </section>

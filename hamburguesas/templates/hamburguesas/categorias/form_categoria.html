@@ -1,0 +1,72 @@
+{% extends 'base.html' %}
+
+{% block title %}{{ titulo }}{% endblock %}
+
+{% block content %}
+
+<div class="container py-5">
+
+    <div class="row justify-content-center">
+        <div class="col-md-8 col-lg-6">
+
+            <div class="card shadow-sm border-0">
+                <div class="card-body p-4">
+
+                    <h1 class="fw-bold mb-3">{{ titulo }}</h1>
+
+                    <p class="text-muted">
+                        Completá los datos de la categoría para organizar mejor el catálogo de Burger House.
+                    </p>
+
+                    <form method="post">
+                        {% csrf_token %}
+
+                        <div class="mb-3">
+                            <label for="{{ form.nombre.id_for_label }}" class="form-label">
+                                {{ form.nombre.label }}
+                            </label>
+
+                            {{ form.nombre }}
+
+                            {% if form.nombre.errors %}
+                                <div class="text-danger small mt-1">
+                                    {{ form.nombre.errors }}
+                                </div>
+                            {% endif %}
+                        </div>
+
+                        <div class="mb-3">
+                            <label for="{{ form.descripcion.id_for_label }}" class="form-label">
+                                {{ form.descripcion.label }}
+                            </label>
+
+                            {{ form.descripcion }}
+
+                            {% if form.descripcion.errors %}
+                                <div class="text-danger small mt-1">
+                                    {{ form.descripcion.errors }}
+                                </div>
+                            {% endif %}
+                        </div>
+
+                        <div class="d-flex justify-content-between mt-4">
+                            <a href="{% url 'hamburguesas:lista_categorias_admin' %}" class="btn btn-outline-secondary">
+                                Cancelar
+                            </a>
+
+                            <button type="submit" class="btn btn-warning fw-bold">
+                                {{ boton }}
+                            </button>
+                        </div>
+
+                    </form>
+
+                </div>
+            </div>
+
+        </div>
+    </div>
+
+</div>
+
+{% endblock %}

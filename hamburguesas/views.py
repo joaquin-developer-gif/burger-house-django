@@ -2,8 +2,8 @@ from django.shortcuts import render, redirect, get_object_or_404
 from django.contrib.auth.decorators import login_required, permission_required
 from django.contrib import messages
 
-from .models import Hamburguesa, Categoria
-from .forms import HamburguesaForm, CategoriaForm
+from .models import Hamburguesa, Categoria, Pedido, DetallePedido
+from .forms import HamburguesaForm, CategoriaForm, PedidoForm
 
 
 # =========================================================
@@ -61,7 +61,7 @@ def crear_hamburguesa(request):
         if form.is_valid():
             form.save()
             messages.success(request, 'Hamburguesa creada correctamente.')
-            return redirect('lista_hamburguesas_admin')
+            return redirect('hamburguesas:lista_hamburguesas_admin')
     else:
         form = HamburguesaForm()
 
@@ -83,7 +83,7 @@ def editar_hamburguesa(request, pk):
         if form.is_valid():
             form.save()
             messages.success(request, 'Hamburguesa actualizada correctamente.')
-            return redirect('lista_hamburguesas_admin')
+            return redirect('hamburguesas:lista_hamburguesas_admin')
     else:
         form = HamburguesaForm(instance=hamburguesa)
 
@@ -102,7 +102,7 @@ def eliminar_hamburguesa(request, pk):
     if request.method == 'POST':
         hamburguesa.delete()
         messages.success(request, 'Hamburguesa eliminada correctamente.')
-        return redirect('lista_hamburguesas_admin')
+        return redirect('hamburguesas:lista_hamburguesas_admin')
 
     return render(request, 'hamburguesas/gestion/confirmar_eliminar_hamburguesa.html', {
         'hamburguesa': hamburguesa
@@ -118,7 +118,7 @@ def eliminar_hamburguesa(request, pk):
 def lista_categorias_admin(request):
     categorias = Categoria.objects.all().order_by('nombre')
 
-    return render(request, 'hamburguesas/gestion/lista_categorias_admin.html', {
+    return render(request, 'hamburguesas/categorias/lista_categorias_admin.html', {
         'categorias': categorias
     })
 
@@ -132,11 +132,11 @@ def crear_categoria(request):
         if form.is_valid():
             form.save()
             messages.success(request, 'Categoría creada correctamente.')
-            return redirect('lista_categorias_admin')
+            return redirect('hamburguesas:lista_categorias_admin')
     else:
         form = CategoriaForm()
 
-    return render(request, 'hamburguesas/gestion/form_categoria.html', {
+    return render(request, 'hamburguesas/categorias/form_categoria.html', {
         'form': form,
         'titulo': 'Crear categoría',
         'boton': 'Guardar'
@@ -154,11 +154,11 @@ def editar_categoria(request, pk):
         if form.is_valid():
             form.save()
             messages.success(request, 'Categoría actualizada correctamente.')
-            return redirect('lista_categorias_admin')
+            return redirect('hamburguesas:lista_categorias_admin')
     else:
         form = CategoriaForm(instance=categoria)
 
-    return render(request, 'hamburguesas/gestion/form_categoria.html', {
+    return render(request, 'hamburguesas/categorias/form_categoria.html', {
         'form': form,
         'titulo': 'Editar categoría',
         'boton': 'Actualizar'
@@ -173,8 +173,64 @@ def eliminar_categoria(request, pk):
     if request.method == 'POST':
         categoria.delete()
         messages.success(request, 'Categoría eliminada correctamente.')
-        return redirect('lista_categorias_admin')
+        return redirect('hamburguesas:lista_categorias_admin')
 
-    return render(request, 'hamburguesas/gestion/confirmar_eliminar_categoria.html', {
+    return render(request, 'hamburguesas/categorias/confirmar_eliminar_categoria.html', {
         'categoria': categoria
+    })
+
+
+# =========================================================
+# PEDIDOS
+# =========================================================
+
+@login_required
+def pedir_hamburguesa(request, hamburguesa_id):
+    hamburguesa = get_object_or_404(
+        Hamburguesa,
+        id=hamburguesa_id,
+        disponible=True
+    )
+
+    if request.method == 'POST':
+        form = PedidoForm(request.POST)
+
+        if form.is_valid():
+            pedido = form.save(commit=False)
+            pedido.usuario = request.user
+            pedido.total = 0
+            pedido.save()
+
+            cantidad = form.cleaned_data['cantidad']
+
+            DetallePedido.objects.create(
+                pedido=pedido,
+                hamburguesa=hamburguesa,
+                cantidad=cantidad,
+                precio_unitario=hamburguesa.precio
+            )
+
+            pedido.actualizar_total()
+
+            messages.success(request, 'Pedido realizado correctamente.')
+            return redirect('hamburguesas:mis_pedidos')
+    else:
+        form = PedidoForm()
+
+    return render(request, 'hamburguesas/pedidos/form_pedido.html', {
+        'form': form,
+        'hamburguesa': hamburguesa
+    })
+
+
+@login_required
+def mis_pedidos(request):
+    pedidos = Pedido.objects.filter(usuario=request.user).select_related(
+        'metodo_pago'
+    ).prefetch_related(
+        'detalles__hamburguesa'
+    )
+
+    return render(request, 'hamburguesas/pedidos/mis_pedidos.html', {
+        'pedidos': pedidos
     })

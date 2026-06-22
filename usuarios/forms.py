@@ -1,10 +1,18 @@
 from django import forms
 from django.contrib.auth.forms import UserCreationForm
+
 from .models import Usuario
 
 
 class RegistroUsuarioForm(UserCreationForm):
-    email = forms.EmailField(required=True)
+    email = forms.EmailField(
+        required=True,
+        label='Correo electrónico',
+        widget=forms.EmailInput(attrs={
+            'class': 'form-control',
+            'placeholder': 'Ej: usuario@email.com'
+        })
+    )
 
     class Meta:
         model = Usuario
@@ -29,3 +37,39 @@ class RegistroUsuarioForm(UserCreationForm):
             'password1': 'Contraseña',
             'password2': 'Confirmar contraseña',
         }
+
+        widgets = {
+            'username': forms.TextInput(attrs={
+                'class': 'form-control',
+                'placeholder': 'Ej: joaquin'
+            }),
+            'first_name': forms.TextInput(attrs={
+                'class': 'form-control',
+                'placeholder': 'Tu nombre'
+            }),
+            'last_name': forms.TextInput(attrs={
+                'class': 'form-control',
+                'placeholder': 'Tu apellido'
+            }),
+            'telefono': forms.TextInput(attrs={
+                'class': 'form-control',
+                'placeholder': 'Ej: 3584196481'
+            }),
+            'direccion': forms.TextInput(attrs={
+                'class': 'form-control',
+                'placeholder': 'Ej: Las Heras 45'
+            }),
+        }
+
+    def __init__(self, *args, **kwargs):
+        super().__init__(*args, **kwargs)
+
+        self.fields['password1'].widget.attrs.update({
+            'class': 'form-control',
+            'placeholder': 'Ingresá una contraseña'
+        })
+
+        self.fields['password2'].widget.attrs.update({
+            'class': 'form-control',
+            'placeholder': 'Repetí la contraseña'
+        })

@@ -11,7 +11,9 @@
             <div class="card shadow border-0">
                 <div class="card-body p-4">
 
-                    <h2 class="text-center fw-bold mb-4">{{ titulo }}</h2>
+                    <h2 class="text-center fw-bold mb-4">
+                        {{ titulo }}
+                    </h2>
 
                     <form method="post">
                         {% csrf_token %}
@@ -45,7 +47,7 @@
                         {% endfor %}
 
                         <div class="d-flex gap-2 mt-4">
-                            <a href="{% url 'lista_categorias_admin' %}" class="btn btn-outline-dark w-50">
+                            <a href="{% url 'hamburguesas:lista_categorias_admin' %}" class="btn btn-outline-dark w-50">
                                 Cancelar
                             </a>
 
@@ -63,5 +65,3 @@
 </section>
 
 {% endblock %}
-
-

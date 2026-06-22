@@ -15,12 +15,12 @@
         </div>
 
         <div>
-            <a href="{% url 'lista_categorias_admin' %}" class="btn btn-outline-dark fw-bold me-2">
+            <a href="{% url 'hamburguesas:lista_categorias_admin' %}" class="btn btn-outline-dark fw-bold me-2">
                 Categorías
             </a>
 
             {% if perms.hamburguesas.add_hamburguesa %}
-                <a href="{% url 'crear_hamburguesa' %}" class="btn btn-warning fw-bold">
+                <a href="{% url 'hamburguesas:crear_hamburguesa' %}" class="btn btn-warning fw-bold">
                     Nueva hamburguesa
                 </a>
             {% endif %}
@@ -90,14 +90,14 @@
                                     <td class="text-end">
 
                                         {% if perms.hamburguesas.change_hamburguesa %}
-                                            <a href="{% url 'editar_hamburguesa' hamburguesa.id %}"
+                                            <a href="{% url 'hamburguesas:editar_hamburguesa' hamburguesa.id %}"
                                                class="btn btn-sm btn-outline-dark">
                                                 Editar
                                             </a>
                                         {% endif %}
 
                                         {% if perms.hamburguesas.delete_hamburguesa %}
-                                            <a href="{% url 'eliminar_hamburguesa' hamburguesa.id %}"
+                                            <a href="{% url 'hamburguesas:eliminar_hamburguesa' hamburguesa.id %}"
                                                class="btn btn-sm btn-outline-danger">
                                                 Eliminar
                                             </a>

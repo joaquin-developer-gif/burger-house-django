@@ -11,7 +11,9 @@
             <div class="card shadow border-0">
                 <div class="card-body p-4">
 
-                    <h2 class="text-center fw-bold mb-4">{{ titulo }}</h2>
+                    <h2 class="text-center fw-bold mb-4">
+                        {{ titulo }}
+                    </h2>
 
                     <form method="post" enctype="multipart/form-data">
                         {% csrf_token %}
@@ -27,6 +29,7 @@
                             {% if field.name == 'disponible' %}
                                 <div class="form-check mb-3">
                                     {{ field }}
+
                                     <label class="form-check-label fw-bold" for="{{ field.id_for_label }}">
                                         {{ field.label }}
                                     </label>
@@ -62,7 +65,7 @@
                         {% endfor %}
 
                         <div class="d-flex gap-2 mt-4">
-                            <a href="{% url 'lista_hamburguesas_admin' %}" class="btn btn-outline-dark w-50">
+                            <a href="{% url 'hamburguesas:lista_hamburguesas_admin' %}" class="btn btn-outline-dark w-50">
                                 Cancelar
                             </a>
 
