@@ -1,0 +1,134 @@
+{% extends 'base.html' %}
+
+{% block title %}Mis pedidos | {{ nombre_sitio }}{% endblock %}
+
+{% block content %}
+
+<section class="mis-pedidos-page py-5">
+    <div class="container">
+
+        <div class="d-flex flex-column flex-md-row justify-content-between align-items-md-center gap-3 mb-4">
+            <div>
+                <span class="badge bg-warning text-dark px-3 py-2 mb-3">
+                    Mi cuenta
+                </span>
+
+                <h1 class="fw-bold display-6 mb-1">
+                    Mis pedidos
+                </h1>
+
+                <p class="text-muted mb-0">
+                    Consultá el estado de tus pedidos realizados en {{ nombre_sitio|default:"Burger House" }}.
+                </p>
+            </div>
+
+            <div>
+                <a href="{% url 'hamburguesas:catalogo_hamburguesas' %}" class="btn btn-warning fw-bold px-4">
+                    Hacer otro pedido
+                </a>
+            </div>
+        </div>
+
+        {% if pedidos %}
+
+            <div class="row g-4">
+                {% for pedido in pedidos %}
+                    <div class="col-md-6 col-lg-4">
+                        <div class="card pedido-card h-100 shadow-sm border-0">
+
+                            <div class="card-body p-4 d-flex flex-column">
+
+                                <div class="d-flex justify-content-between align-items-start mb-3">
+                                    <div>
+                                        <h5 class="fw-bold mb-1">
+                                            Pedido #{{ pedido.id }}
+                                        </h5>
+
+                                        <p class="text-muted small mb-0">
+                                            {{ pedido.fecha|date:"d/m/Y H:i" }}
+                                        </p>
+                                    </div>
+
+                                    {% if pedido.estado == 'pendiente' %}
+                                        <span class="badge bg-secondary">Pendiente</span>
+                                    {% elif pedido.estado == 'preparando' %}
+                                        <span class="badge bg-warning text-dark">Preparando</span>
+                                    {% elif pedido.estado == 'listo' %}
+                                        <span class="badge bg-info text-dark">Listo</span>
+                                    {% elif pedido.estado == 'entregado' %}
+                                        <span class="badge bg-success">Entregado</span>
+                                    {% elif pedido.estado == 'cancelado' %}
+                                        <span class="badge bg-danger">Cancelado</span>
+                                    {% else %}
+                                        <span class="badge bg-dark">{{ pedido.estado }}</span>
+                                    {% endif %}
+                                </div>
+
+                                <hr>
+
+                                <div class="mb-3">
+                                    <p class="mb-2">
+                                        <strong>Entrega:</strong>
+                                        {{ pedido.get_tipo_entrega_display }}
+                                    </p>
+
+                                    {% if pedido.direccion_entrega %}
+                                        <p class="mb-2">
+                                            <strong>Dirección:</strong>
+                                            {{ pedido.direccion_entrega }}
+                                        </p>
+                                    {% endif %}
+
+                                    {% if pedido.telefono_contacto %}
+                                        <p class="mb-2">
+                                            <strong>Teléfono:</strong>
+                                            {{ pedido.telefono_contacto }}
+                                        </p>
+                                    {% endif %}
+
+                                    {% if pedido.metodo_pago %}
+                                        <p class="mb-0">
+                                            <strong>Pago:</strong>
+                                            {{ pedido.metodo_pago.nombre }}
+                                        </p>
+                                    {% endif %}
+                                </div>
+
+                                <div class="pedido-total mt-auto">
+                                    <span>Total</span>
+                                    <strong>${{ pedido.total }}</strong>
+                                </div>
+
+                            </div>
+
+                        </div>
+                    </div>
+                {% endfor %}
+            </div>
+
+        {% else %}
+
+            <div class="pedido-empty-card shadow-sm border-0 text-center mx-auto mt-5">
+                <div class="pedido-empty-icon mb-3">
+                    🍔
+                </div>
+
+                <h3 class="fw-bold mb-2">
+                    Todavía no realizaste ningún pedido
+                </h3>
+
+                <p class="text-muted mb-4">
+                    Cuando hagas tu primer pedido, vas a poder ver acá el estado, el total y los datos de entrega.
+                </p>
+
+                <a href="{% url 'hamburguesas:catalogo_hamburguesas' %}" class="btn btn-warning fw-bold px-4">
+                    Ver hamburguesas
+                </a>
+            </div>
+
+        {% endif %}
+
+    </div>
+</section>
+
+{% endblock %}

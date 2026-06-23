@@ -1,0 +1,85 @@
+{% extends 'base.html' %}
+
+{% block title %}{{ titulo }} | {{ nombre_sitio }}{% endblock %}
+
+{% block content %}
+
+<section class="container my-5">
+    <div class="row justify-content-center">
+        <div class="col-md-8 col-lg-7">
+
+            <div class="card shadow border-0">
+                <div class="card-body p-4">
+
+                    <h2 class="text-center fw-bold mb-4">
+                        {{ titulo }}
+                    </h2>
+
+                    <form method="post" enctype="multipart/form-data">
+                        {% csrf_token %}
+
+                        {% if form.non_field_errors %}
+                            <div class="alert alert-danger">
+                                {{ form.non_field_errors }}
+                            </div>
+                        {% endif %}
+
+                        {% for field in form %}
+
+                            {% if field.name == 'disponible' %}
+                                <div class="form-check mb-3">
+                                    {{ field }}
+
+                                    <label class="form-check-label fw-bold" for="{{ field.id_for_label }}">
+                                        {{ field.label }}
+                                    </label>
+
+                                    {% if field.errors %}
+                                        <div class="text-danger small mt-1">
+                                            {{ field.errors }}
+                                        </div>
+                                    {% endif %}
+                                </div>
+                            {% else %}
+                                <div class="mb-3">
+                                    <label class="form-label fw-bold" for="{{ field.id_for_label }}">
+                                        {{ field.label }}
+                                    </label>
+
+                                    {{ field }}
+
+                                    {% if field.help_text %}
+                                        <div class="form-text">
+                                            {{ field.help_text }}
+                                        </div>
+                                    {% endif %}
+
+                                    {% if field.errors %}
+                                        <div class="text-danger small mt-1">
+                                            {{ field.errors }}
+                                        </div>
+                                    {% endif %}
+                                </div>
+                            {% endif %}
+
+                        {% endfor %}
+
+                        <div class="d-flex gap-2 mt-4">
+                            <a href="{% url 'hamburguesas:lista_hamburguesas_admin' %}" class="btn btn-outline-dark w-50">
+                                Cancelar
+                            </a>
+
+                            <button type="submit" class="btn btn-warning fw-bold w-50">
+                                {{ boton }}
+                            </button>
+                        </div>
+                    </form>
+
+                </div>
+            </div>
+
+        </div>
+    </div>
+</section>
+
+{% endblock %}

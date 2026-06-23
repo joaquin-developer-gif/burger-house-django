@@ -1,0 +1,133 @@
+{% extends 'base.html' %}
+
+{% block title %}Hamburguesas | {{ nombre_sitio }}{% endblock %}
+
+{% block content %}
+
+<section class="catalogo-page py-5">
+    <div class="container">
+
+        <div class="text-center mb-5">
+            <span class="badge bg-warning text-dark px-3 py-2 mb-3">
+                Catálogo
+            </span>
+
+            <h1 class="fw-bold display-5">
+                Nuestras hamburguesas
+            </h1>
+
+            <p class="text-muted">
+                {{ slogan_sitio }}
+            </p>
+        </div>
+
+        {% if hamburguesas %}
+
+            <div id="carouselHamburguesas" class="carousel slide catalogo-carousel" data-bs-ride="carousel">
+
+                <div class="carousel-inner">
+
+                    {% for hamburguesa in hamburguesas %}
+
+                        {% if forloop.counter0|divisibleby:2 %}
+                            <div class="carousel-item {% if forloop.first %}active{% endif %}">
+                                <div class="row justify-content-center g-4">
+                        {% endif %}
+
+                                    <div class="col-md-6">
+                                        <div class="card catalogo-carousel-card h-100 shadow border-0">
+
+                                            {% if hamburguesa.imagen %}
+                                                <img src="{{ hamburguesa.imagen.url }}"
+                                                     class="card-img-top catalogo-carousel-img"
+                                                     alt="{{ hamburguesa.nombre }}">
+                                            {% endif %}
+
+                                            <div class="card-body text-center d-flex flex-column p-4">
+
+                                                <div class="mb-3">
+                                                    {% if hamburguesa.disponible %}
+                                                        <span class="badge bg-success">
+                                                            Disponible
+                                                        </span>
+                                                    {% else %}
+                                                        <span class="badge bg-danger">
+                                                            No disponible
+                                                        </span>
+                                                    {% endif %}
+                                                </div>
+
+                                                <h3 class="fw-bold mb-3">
+                                                    {{ hamburguesa.nombre }}
+                                                </h3>
+
+                                                <p class="text-muted">
+                                                    {{ hamburguesa.descripcion }}
+                                                </p>
+
+                                                {% if hamburguesa.categoria %}
+                                                    <p class="small text-secondary mb-3">
+                                                        Categoría: {{ hamburguesa.categoria.nombre }}
+                                                    </p>
+                                                {% endif %}
+
+                                                <p class="fw-bold text-success fs-3 mt-auto mb-4">
+                                                    ${{ hamburguesa.precio }}
+                                                </p>
+
+                                                {% if hamburguesa.disponible %}
+                                                    {% if user.is_authenticated %}
+                                                        <a href="{% url 'hamburguesas:pedir_hamburguesa' hamburguesa.id %}"
+                                                           class="btn btn-warning fw-bold w-100">
+                                                            Pedir
+                                                        </a>
+                                                    {% else %}
+                                                        <a href="{% url 'login' %}"
+                                                           class="btn btn-outline-warning fw-bold w-100">
+                                                            Iniciar sesión para pedir
+                                                        </a>
+                                                    {% endif %}
+                                                {% else %}
+                                                    <button class="btn btn-secondary w-100" disabled>
+                                                        No disponible
+                                                    </button>
+                                                {% endif %}
+
+                                            </div>
+
+                                        </div>
+                                    </div>
+
+                        {% if forloop.counter|divisibleby:2 or forloop.last %}
+                                </div>
+                            </div>
+                        {% endif %}
+
+                    {% endfor %}
+
+                </div>
+
+                <button class="carousel-control-prev" type="button" data-bs-target="#carouselHamburguesas" data-bs-slide="prev">
+                    <span class="carousel-control-prev-icon bg-dark rounded-circle p-3" aria-hidden="true"></span>
+                    <span class="visually-hidden">Anterior</span>
+                </button>
+
+                <button class="carousel-control-next" type="button" data-bs-target="#carouselHamburguesas" data-bs-slide="next">
+                    <span class="carousel-control-next-icon bg-dark rounded-circle p-3" aria-hidden="true"></span>
+                    <span class="visually-hidden">Siguiente</span>
+                </button>
+
+            </div>
+
+        {% else %}
+
+            <div class="alert alert-warning text-center">
+                Todavía no hay hamburguesas cargadas.
+            </div>
+
+        {% endif %}
+
+    </div>
+</section>
+
+{% endblock %}
